@@ -11,4 +11,6 @@
     <string name="title_aviso">Aviso</string>
     <string name="message_campos_invalidos_brancos">Ha campos inválidos ou em branco!</string>
     <string name="lbl_ok">Ok</string>
+    <string name="message_conexao_criada_com_sucesso">Conexão criada com sucesso!</string>
+    <string name="title_erro">Erro</string>
 </resources>
