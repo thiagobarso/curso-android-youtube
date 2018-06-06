@@ -1,7 +1,11 @@
 package com.example.thiagosoares.carteiradeclientes;
 
 import android.app.AlertDialog;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +19,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.thiagosoares.carteiradeclientes.database.DadosOpenHelper;
+import com.example.thiagosoares.carteiradeclientes.dominio.entidades.Cliente;
+import com.example.thiagosoares.carteiradeclientes.dominio.repositorio.ClienteRepositorio;
+
 public class ActCadCliente extends AppCompatActivity {
 
     private EditText edtNome;
     private EditText edtEndereco;
     private EditText edtEmail;
     private EditText edtTelefone;
+    private ConstraintLayout layoutContentActCadCliente;
+
+    private SQLiteDatabase conexao;
+
+    private DadosOpenHelper dadosOpenHelper;
+
+    private ClienteRepositorio clienteRepositorio;
+
+    private Cliente cliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +50,13 @@ public class ActCadCliente extends AppCompatActivity {
         edtEndereco = (EditText) findViewById(R.id.edtEndereco);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtTelefone = (EditText) findViewById(R.id.edtTelefone);
+        layoutContentActCadCliente = (ConstraintLayout) findViewById(R.id.layoutContentActCadCliente);
+
+        criarConexao();
 
     }
 
-    private void validaCampos() {
+    private boolean validaCampos() {
 
         boolean res = false;
 
@@ -61,7 +81,16 @@ public class ActCadCliente extends AppCompatActivity {
             builder.setMessage(R.string.message_campos_invalidos_brancos);
             builder.setNeutralButton(R.string.lbl_ok, null);
             builder.show();
+        }else{
+
+            cliente = new Cliente();
+            this.cliente.nome = nome;
+            this.cliente.endereco = endereco;
+            this.cliente.email = email;
+            this.cliente.telefone = telefone;
         }
+
+        return res;
 
     }
 
@@ -92,7 +121,8 @@ public class ActCadCliente extends AppCompatActivity {
         switch (itemId) {
 
             case R.id.action_ok:
-                validaCampos();
+                //validaCampos();
+                confirmar();
 //                Toast.makeText(this, "Botão Ok selecionado", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -102,5 +132,44 @@ public class ActCadCliente extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void criarConexao(){
+        try{
+            dadosOpenHelper = new DadosOpenHelper(this);
+
+            conexao = dadosOpenHelper.getWritableDatabase();
+
+            Snackbar.make(layoutContentActCadCliente, R.string.message_conexao_criada_com_sucesso, Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.lbl_ok, null).show();
+
+            clienteRepositorio = new ClienteRepositorio(conexao);
+
+        }catch(SQLException ex){
+            android.support.v7.app.AlertDialog.Builder dlg = new android.support.v7.app.AlertDialog.Builder(this);
+            dlg.setTitle(R.string.title_erro);
+            dlg.setMessage(ex.getMessage());
+            dlg.setNeutralButton("OK", null);
+            dlg.show();
+        }
+    }
+
+    private void confirmar(){
+
+        if (validaCampos() == false){
+
+            try{
+                clienteRepositorio.inserir(cliente);
+                finish();
+            }catch (SQLiteException ex){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.title_erro);
+                builder.setMessage(ex.getMessage());
+                builder.setNeutralButton(R.string.lbl_ok, null);
+                builder.show();
+            }
+
+        }
+
     }
 }
