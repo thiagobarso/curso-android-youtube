@@ -2,4 +2,8 @@
     <string name="app_name">Carteira de Clientes</string>
     <string name="title_activity_act_main">Carteira de Clientes</string>
     <string name="title_activity_act_cad_cliente">Cliente</string>
+    <string name="lbl_nome">Nome</string>
+    <string name="lbl_endereco">Endereço</string>
+    <string name="lbl_email">Email</string>
+    <string name="lbl_telefone">Telefone</string>
 </resources>
