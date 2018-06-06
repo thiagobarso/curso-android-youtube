@@ -6,4 +6,6 @@
     <string name="lbl_endereco">Endereço</string>
     <string name="lbl_email">Email</string>
     <string name="lbl_telefone">Telefone</string>
+    <string name="title_menu_ok">Ok</string>
+    <string name="title_menu_cancelar">Cancelar</string>
 </resources>

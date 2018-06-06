@@ -79,7 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/lbl_telefoneelefone"
+        android:text="@string/lbl_telefone"
         app:layout_constraintEnd_toEndOf="@+id/edtEmail"
         app:layout_constraintStart_toStartOf="@+id/edtEmail"
         app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
