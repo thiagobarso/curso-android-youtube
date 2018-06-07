@@ -80,8 +80,14 @@ public class ActMain extends AppCompatActivity {
     }
 
     public void cadastrar(View view){
-        Intent intent = new Intent(ActMain.this, ActCadCliente.class);
-        startActivity(intent);
+        Intent it = new Intent(ActMain.this, ActCadCliente.class);
+        startActivityForResult(it, 0);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        List<Cliente> dados = clienteRepositorio.buscarTodos();
+        clienteAdapter = new ClienteAdapter(dados);
+        lstDados.setAdapter(clienteAdapter);
+    }
 }
