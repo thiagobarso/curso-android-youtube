@@ -49,7 +49,6 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="@+id/txtEndereco"
         app:layout_constraintStart_toStartOf="@+id/txtEndereco"
         app:layout_constraintTop_toBottomOf="@+id/txtEndereco" />
