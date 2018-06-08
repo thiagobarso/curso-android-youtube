@@ -23,6 +23,8 @@ import com.example.thiagosoares.carteiradeclientes.database.DadosOpenHelper;
 import com.example.thiagosoares.carteiradeclientes.dominio.entidades.Cliente;
 import com.example.thiagosoares.carteiradeclientes.dominio.repositorio.ClienteRepositorio;
 
+import java.io.Serializable;
+
 public class ActCadCliente extends AppCompatActivity {
 
     private EditText edtNome;
@@ -53,7 +55,19 @@ public class ActCadCliente extends AppCompatActivity {
         layoutContentActCadCliente = (ConstraintLayout) findViewById(R.id.layoutContentActCadCliente);
 
         criarConexao();
+        verificaParametro();
 
+    }
+
+    private void verificaParametro(){
+        Bundle bundle = getIntent().getExtras();
+        if ((bundle != null) && (bundle.containsKey("CLIENTE"))){
+            Cliente cliente = (Cliente) bundle.getSerializable("CLIENTE");
+            edtNome.setText(cliente.nome);
+            edtEmail.setText(cliente.email);
+            edtEndereco.setText(cliente.endereco);
+            edtTelefone.setText(cliente.telefone);
+        }
     }
 
     private boolean validaCampos() {

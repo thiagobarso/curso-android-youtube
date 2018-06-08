@@ -62,8 +62,15 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent it = new Intent(context, ActCadCliente.class);
-                    ((AppCompatActivity) context).startActivityForResult(it, 0);
+                    if (dados.size() > 0){
+
+                        Cliente cliente = dados.get(getLayoutPosition());
+
+                        Intent it = new Intent(context, ActCadCliente.class);
+                        it.putExtra("CLIENTE", cliente);
+
+                        ((AppCompatActivity) context).startActivityForResult(it, 0);
+                    }
                 }
             });
         }

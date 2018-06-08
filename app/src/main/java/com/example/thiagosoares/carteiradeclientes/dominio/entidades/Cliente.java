@@ -1,6 +1,8 @@
 package com.example.thiagosoares.carteiradeclientes.dominio.entidades;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable{
 
     public int codigo;
     public String nome;
